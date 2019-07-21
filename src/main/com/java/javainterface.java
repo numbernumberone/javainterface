@@ -1,6 +1,7 @@
 package com.java;
 
 
+import com.java.util.MD5Util;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -9,11 +10,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 
 public class javainterface {
     public static String doPostJson(String url, String json) {
+        System.out.println("");
         // 创建Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
@@ -40,25 +40,15 @@ public class javainterface {
         }
         return resultString;
     }
-    public static String getMD5Str(String str) throws Exception {
-        try {
-            // 生成一个MD5加密计算摘要
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            // 计算md5函数
-            md.update(str.getBytes());
-            // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
-            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
-            return new BigInteger(1, md.digest()).toString(16);
-        } catch (Exception e) {
-            throw new Exception("MD5加密出现错误，"+e.toString());
-        }
-    }
+
     public static void main(String[] args) {
         String md5StrOut = "";
         long time =System.currentTimeMillis()/1000;
-        String md5Str = "zhongkong"+"yixiangbus_work_jiande"+"TcDmo9YJRPcKoJ4yhjkDC5bGdQS6TJad7qF4onXtLKisPTCh9YsY3jmYnih6zJ4P"+time;
+        StringBuilder md5Str = new StringBuilder();
+        md5Str.append("zhongkong").append("yixiangbus_work_jiande").append("TcDmo9YJRPcKoJ4yhjkDC5bGdQS6TJad7qF4onXtLKisPTCh9YsY3jmYnih6zJ4P")
+                .append(time);
         try{
-            md5StrOut = getMD5Str(md5Str);
+            md5StrOut = MD5Util.getMD5Str(md5Str.toString());
         }catch (Exception e){
             System.out.println(e);
         }
